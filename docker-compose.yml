@@ -1,4 +1,4 @@
-version: "3"
+version: "4"
 
 services:
   app:
@@ -26,3 +26,19 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=drfuser
       - POSTGRES_PASSWORD=admin
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    #restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: Test4@example.com
+      PGADMIN_DEFAULT_PASSWORD: Test4
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
