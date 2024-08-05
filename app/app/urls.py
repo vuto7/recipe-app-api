@@ -5,11 +5,22 @@ from django.urls import path, include
 from rest_framework.response import Response
 from django.conf.urls.static import static
 from django.conf import settings
+from django.http import JsonResponse
 
 
 @api_view(('GET',))
 def hello_world(request):
         return Response({"message": "Hello, world!"})
+
+@api_view(('GET',))
+def hello_me(request):
+      me = {
+            "name": "Malama",
+            "age": 31,
+            "sal": 1000
+      }
+
+      return JsonResponse(me)
 
 
 urlpatterns = [
@@ -19,6 +30,9 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('api/recipe/', include('recipe.urls')),
     path('api/hello/', hello_world),
+    path('api/me/', hello_me),
+    path('api/author/', include('authors.urls')),
+    path('api/student/', include('students.urls'))
 ]
 
 if settings.DEBUG:

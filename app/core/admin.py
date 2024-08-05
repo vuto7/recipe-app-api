@@ -6,7 +6,6 @@ from django.utils.translation import gettext as _
 
 from core import models
 
-
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     list_display = ['email', 'name']
@@ -31,4 +30,6 @@ admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Recipe)
 admin.site.register(models.Tag)
 admin.site.register(models.Ingredient)
+admin.site.register(models.Author)
+admin.site.register(models.Book)
 

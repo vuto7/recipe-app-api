@@ -1,6 +1,10 @@
+import logging
+
 from rest_framework import serializers
 
 from core.models import (Recipe, Tag, Ingredient)
+
+logger = logging.getLogger('IngredientsLogger') 
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -24,23 +28,26 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('id', 'title', 'time_minutes', 'price', 'link', 'ingredients')
-        read_only_fields = ('id',)
+        fields = ('id', 'title', 'time_minutes', 'price', 'link', 'ingredients', 'image')
+        read_only_fields = ('id',) 
 
     def _get_or_create_ingredients(self, ingredients, recipe):
         auth_user = self.context['request'].user
+        
         for ingredient in ingredients:
             ingredient_obj, created = Ingredient.objects.get_or_create(
                 user = auth_user,
+                #name =                 
                 **ingredient
             )
-            recipe.ingredients.add(ingredient_obj)
 
     def create(self, validated_data):
         ingredients = validated_data.pop('ingredients', [])
         recipe = Recipe.objects.create(**validated_data)
-        self._get_or_create_ingredients(ingredients, recipe)
-        
+
+        #The Validated Data is deliberately Emptied []
+        self._get_or_create_ingredients(ingredients, recipe)  
+
         return recipe
     
     def update(self, instance, validated_data):
@@ -55,9 +62,15 @@ class RecipeSerializer(serializers.ModelSerializer):
         return 
 
 
-"""
-class RecipeDetailSerializer(RecipeSerializer):
+class RecipeImageSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = RecipeSerializer.Meta.fields + ['description']
-"""
+        model = Recipe
+        fields = ['id', 'image']
+        read_only_fields = ['id']
+        extra_kwargs = {'image': {'required':'True'}}
+
+class RecipeDetailSerializer(RecipeSerializer):
+    """Serialize a recipe detail"""
+    #fields = RecipeSerializer.Meta.fields + ['image']
+    ingredients = IngredientSerializer(many=True, read_only=True)
