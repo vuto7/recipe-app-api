@@ -2,7 +2,7 @@ import logging
 
 from rest_framework import serializers
 
-from core.models import (Author, Book)
+from authors.models import (Author, Book)
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:

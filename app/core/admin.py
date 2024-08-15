@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
 
 from core import models
+from authors import models as auth_models
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
@@ -30,6 +31,6 @@ admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Recipe)
 admin.site.register(models.Tag)
 admin.site.register(models.Ingredient)
-admin.site.register(models.Author)
-admin.site.register(models.Book)
+admin.site.register(auth_models.Author)
+admin.site.register(auth_models.Book)
 

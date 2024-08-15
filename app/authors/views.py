@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import (generics)
 from authors.serializers import AuthorSerializer, BookSerializer
 
-from core.models import (Author, Book)
+from authors.models import (Author, Book)
 
 
 class AuthorListView(generics.ListCreateAPIView):
